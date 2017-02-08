@@ -1,0 +1,23 @@
+{
+    "autoload": {
+        "psr-4": {
+            "MainPackage": "src/"
+        }
+    },
+    "require": {
+        "composer/installers": "*",
+        "vendor1/package1": "typed-package",
+        "vendor2/package2": "special-vendor",
+        "vendor3/package3": "special-package"
+    },
+    "require-dev": {
+        "vendor2/package4": "*"
+    },
+    "extra": {
+        "installer-paths": {
+            "custom/{$type}": ["type:typed-package"],
+            "custom/{$vendor}/{$name}": ["vendor:vendor2"],
+            "other/{$name}": ["vendor3/package3"]
+        }
+    }
+}
