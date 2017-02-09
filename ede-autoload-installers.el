@@ -88,7 +88,7 @@ PROJECT-DIR is the project root."
           (f-join project-dir path))
       (if (equal  "library" type)
           (f-join project-dir "vendor" package)
-        (user-error "Unknown package type '%s'" type)))))
+        (lwarn 'ede-autoload-installers :error "Unknown package type '%s'" type)))))
 
 (defun ede-autoload-installers--flip-installer-paths (installer-paths)
   "Flips INSTALLER-PATHS into a lookup table."
