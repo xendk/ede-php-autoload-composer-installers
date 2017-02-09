@@ -1,0 +1,8 @@
+{
+    "type": "typed-package2",
+    "autoload": {
+        "psr-4": {
+            "Package2Class": "src"
+        }
+    }
+}

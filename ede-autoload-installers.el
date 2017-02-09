@@ -31,6 +31,25 @@
 (require 'f)
 (require 's)
 
+;; Customization
+(defgroup ede-autoload-installers nil
+  "Support for composer/installers in ede-php-autoload."
+  :group 'ede)
+
+(defcustom ede-autoload-installers-project-paths '()
+  "Default installation path for composer/installers package types.
+
+This is the path that composer/installers installs packages of the
+given type into when not overridden by paths in the extra section
+of composer.json.
+
+Each path can use the placeholders {$name}, {$vendor} and {$type},
+just as they're specified in the extra section of composer.json.
+
+Paths should be relative."
+  :type `(alist :key-type (string :tag "Type") :value-type (string :tag "Path"))
+  :group 'ede-autoload-installers)
+
 (defun ede-autoload-installers-autoloads (context autoloads)
   "Visitor that fixes composer installers autoloads.
 
@@ -79,16 +98,23 @@ PROJECT-DIR is the project root."
          (paths (delete nil (list
                              (assoc package installer-paths)
                              (assoc (concat "type:" type) installer-paths)
-                             (assoc (concat "vendor:" vendor) installer-paths)))))
+                             (assoc (concat "vendor:" vendor) installer-paths))))
+         path)
     (if (> (length paths) 0)
-        (let* ((path (s-replace "{$name}" name
-                               (s-replace "{$vendor}" vendor
-                                          (s-replace "{$type}" type
-                                                     (symbol-name (cdr (car paths))))))))
-          (f-join project-dir path))
-      (if (equal  "library" type)
-          (f-join project-dir "vendor" package)
-        (lwarn 'ede-autoload-installers :error "Unknown package type '%s'" type)))))
+        (setq path (symbol-name (cdr (car paths))))
+      (progn
+        (setq path (f-join "vendor" package))
+        ;; Always install libraries into vendor per default.
+        (if (not (equal  "library" type))
+            (let ((configured-path (assoc type ede-autoload-installers-project-paths)))
+              (if configured-path
+                  (setq path (cdr configured-path))
+                  (lwarn 'ede-autoload-installers :error "Unknown package type '%s'" type))))))
+    (f-join project-dir
+            (s-replace "{$name}" name
+                       (s-replace "{$vendor}" vendor
+                                  (s-replace "{$type}" type
+                                             path))))))
 
 (defun ede-autoload-installers--flip-installer-paths (installer-paths)
   "Flips INSTALLER-PATHS into a lookup table."

@@ -1,0 +1,30 @@
+{
+    "packages": [
+        {
+            "name": "composer/installers",
+            "autoload": {
+                "psr-4": {
+                    "Composer\\Installers\\": "src/Composer/Installers"
+                }
+            }
+        },
+        {
+            "name": "vendor1/package1",
+            "type": "typed-package",
+            "autoload": {
+                "psr-4": {
+                    "Package1\\": "src"
+                }
+            }
+        },
+        {
+            "name": "vendor2/package2",
+            "type": "typed-package2",
+            "autoload": {
+                "psr-4": {
+                    "Package2\\": "src"
+                }
+            }
+        }
+    ]
+}

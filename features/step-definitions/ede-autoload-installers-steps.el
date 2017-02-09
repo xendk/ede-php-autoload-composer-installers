@@ -1,9 +1,20 @@
 ;; Originally stolen from ede-php-autoload and adapted.
 
-(Given "^I visit \"\\(.+\\)\" in project \"\\(.+\\)\"$"
+(defvar ede-autoload-installers-project-paths)
+
+(Before
+ ;; Ensure we start with an unconfigured state.
+ (setq ede-autoload-installers-project-paths ()))
+
+
+(Given "^I have configured the project types:$"
+  (lambda (types)
+    (setq ede-autoload-installers-project-paths (cl-loop for row in (cdr types)
+             collect (cons (car row) (car (cdr row)))))))
+
+(When "^I visit \"\\(.+\\)\" in project \"\\(.+\\)\"$"
   (lambda (file-path project-name)
-    (find-file (ede-autoload-installers-test-get-project-file-path file-path project-name))
-    ))
+    (find-file (ede-autoload-installers-test-get-project-file-path file-path project-name))))
 
 (Then "^ede-php-autoload-project should exist$"
   (lambda ()
@@ -33,3 +44,8 @@
   (lambda (query suggestion-table)
     (should (equal (ede-php-autoload-complete-type-name (ede-current-project) query)
                    (car suggestion-table)))))
+
+(Then "^I should see a \"\\([^\"]+\\)\" warning$"
+  (lambda (expected)
+    (should
+     (with-current-buffer "*Warnings*" (s-contains? expected (buffer-string))))))
