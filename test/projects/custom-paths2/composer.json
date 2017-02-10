@@ -7,6 +7,7 @@
     "require": {
         "composer/installers": "*",
         "vendor1/package1": "typed-package",
-        "vendor2/package2": "typed-package2"
+        "vendor2/package2": "typed-package2",
+        "vendor3/package3": "typed-package3"
     }
 }

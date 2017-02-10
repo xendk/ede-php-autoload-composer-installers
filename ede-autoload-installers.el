@@ -110,12 +110,27 @@ PROJECT-DIR is the project root."
             (let ((configured-path (assoc type ede-autoload-installers-project-paths)))
               (if configured-path
                   (setq path (cdr configured-path))
-                  (lwarn 'ede-autoload-installers :error "Unknown package type '%s'" type))))))
+                ;; As a last ditch effort, check if the default
+                ;; installation path exists. If it does, it must be
+                ;; this package, so quetly use that. There's a lot of
+                ;; packages defining types for various reasons not
+                ;; related to composer/installers.
+                (if (not (file-exists-p
+                          (f-join project-dir
+                                  (ede-autoload-installers--file-path path name vendor type))))
+                    (lwarn 'ede-autoload-installers :error "Unknown package type '%s'" type)))))))
     (f-join project-dir
-            (s-replace "{$name}" name
-                       (s-replace "{$vendor}" vendor
-                                  (s-replace "{$type}" type
-                                             path))))))
+            (ede-autoload-installers--file-path path name vendor type))))
+
+(defun ede-autoload-installers--file-path (path name vendor type)
+  "Replace the composer/installers tokens in PATH.
+
+ The {$name}, {$vendor} and {$type} placeholders are replaced
+ with the values of NAME, VENDOR and TYPE"
+  (s-replace "{$name}" name
+             (s-replace "{$vendor}" vendor
+                        (s-replace "{$type}" type
+                                   path))))
 
 (defun ede-autoload-installers--flip-installer-paths (installer-paths)
   "Flips INSTALLER-PATHS into a lookup table."
