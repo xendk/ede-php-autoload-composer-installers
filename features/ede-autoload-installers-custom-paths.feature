@@ -2,8 +2,8 @@ Feature: Configuration of paths
 
   Scenario: Unknown package types should trigger a warning
     When I visit "src/main.php" in project "custom-paths"
-    Then I should see a "Unknown package type ’typed-package’" warning
-    And I should see a "Unknown package type ’typed-package2’" warning
+    Then I should see a "Unknown package type 'typed-package'" warning
+    And I should see a "Unknown package type 'typed-package2'" warning
 
 @this
   Scenario: Configured types should be installed at the configured path

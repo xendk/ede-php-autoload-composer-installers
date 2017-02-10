@@ -48,4 +48,10 @@
 (Then "^I should see a \"\\([^\"]+\\)\" warning$"
   (lambda (expected)
     (should
-     (with-current-buffer "*Warnings*" (s-contains? expected (buffer-string))))))
+     (with-current-buffer "*Warnings*"
+       (s-contains?
+        ;; Emacs 25+ translates ' quotes to ’.
+        (if (> emacs-major-version 24)
+            (s-replace "'" "’"expected)
+          expected)
+        (buffer-string))))))
