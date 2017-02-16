@@ -79,7 +79,7 @@ found autoloads."
                   i (1+ i))
             )
           autoloads)
-      (autoloads))))
+      autoloads)))
 
 (defun ede-php-autoload-composer-installers--get-package-dir (package-data installer-paths project-dir)
   "Return the directory that contain third party sources.
