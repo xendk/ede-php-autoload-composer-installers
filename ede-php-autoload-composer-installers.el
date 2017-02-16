@@ -5,7 +5,7 @@
 ;; Author: Thomas Fini Hansen <xen@xen.dk>
 ;; Created: January 29, 2017
 ;; Version: 0.1.0
-;; Package-Requires: ((ede-php-autoload "20170123.1113") (f "0.19.0") (s "1.7.0"))
+;; Package-Requires: ((ede-php-autoload "20170212.450") (f "0.19.0") (s "1.7.0"))
 ;; Keywords: programming, php
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -72,7 +72,7 @@ found autoloads."
                current-data)
           (while (< i l)
             (setq current-data (aref packages i)
-                  autoloads (ede-php-autoload--merge-composer-autoloads
+                  autoloads (ede-php-autoload-composer-merge-composer-autoloads
                              current-data
                              autoloads
                              (ede-php-autoload-composer-installers--get-package-dir current-data installer-paths project-dir))
