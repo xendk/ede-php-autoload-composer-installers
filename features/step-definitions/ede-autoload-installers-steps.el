@@ -1,10 +1,15 @@
 ;; Originally stolen from ede-php-autoload and adapted.
 
 (defvar ede-autoload-installers-project-paths)
+(defvar ede-projects)
 
 (Before
  ;; Ensure we start with an unconfigured state.
- (setq ede-autoload-installers-project-paths ()))
+ (setq ede-autoload-installers-project-paths ())
+ ;; Kill all file buffers.
+ (mapc 'kill-buffer (cl-remove-if-not 'buffer-file-name (buffer-list)))
+ ;; Make EDE forget all projects.
+ (setq ede-projects nil))
 
 
 (Given "^I have configured the project types:$"

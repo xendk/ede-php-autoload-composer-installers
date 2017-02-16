@@ -25,6 +25,15 @@
                     "Package2\\": "src"
                 }
             }
+        },
+        {
+            "name": "vendor3/package3",
+            "type": "typed-package3",
+            "autoload": {
+                "psr-4": {
+                    "Package3\\": "src"
+                }
+            }
         }
     ]
 }
