@@ -1,11 +1,11 @@
 ;; Originally stolen from ede-php-autoload and adapted.
 
-(defvar ede-autoload-installers-project-paths)
+(defvar ede-php-autoload-composer-installers-project-paths)
 (defvar ede-projects)
 
 (Before
  ;; Ensure we start with an unconfigured state.
- (setq ede-autoload-installers-project-paths ())
+ (setq ede-php-autoload-composer-installers-project-paths ())
  ;; Kill all file buffers.
  (mapc 'kill-buffer (cl-remove-if-not 'buffer-file-name (buffer-list)))
  ;; Make EDE forget all projects.
@@ -14,12 +14,12 @@
 
 (Given "^I have configured the project types:$"
   (lambda (types)
-    (setq ede-autoload-installers-project-paths (cl-loop for row in (cdr types)
+    (setq ede-php-autoload-composer-installers-project-paths (cl-loop for row in (cdr types)
              collect (cons (car row) (car (cdr row)))))))
 
 (When "^I visit \"\\(.+\\)\" in project \"\\(.+\\)\"$"
   (lambda (file-path project-name)
-    (find-file (ede-autoload-installers-test-get-project-file-path file-path project-name))))
+    (find-file (ede-php-autoload-composer-installers-test-get-project-file-path file-path project-name))))
 
 (Then "^ede-php-autoload-project should exist$"
   (lambda ()
@@ -29,9 +29,9 @@
   (lambda (class-name file-path)
     (should
      (string=
-      (ede-autoload-installers-test-get-project-file-path
+      (ede-php-autoload-composer-installers-test-get-project-file-path
        file-path
-       (ede-autoload-installers-test-get-current-project-name))
+       (ede-php-autoload-composer-installers-test-get-current-project-name))
       (ede-php-autoload-find-class-def-file (ede-current-project) class-name)))))
 
 (Then "^the class \"\\(.+\\)\" should not be detected"

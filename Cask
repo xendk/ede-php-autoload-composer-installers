@@ -1,7 +1,7 @@
 (source gnu)
 (source melpa)
 
-(package-file "ede-autoload-installers.el")
+(package-file "ede-php-autoload-composer-installers.el")
 
 (development
  (depends-on "f")

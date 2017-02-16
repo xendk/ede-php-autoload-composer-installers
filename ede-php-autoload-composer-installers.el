@@ -1,4 +1,4 @@
-;;; ede-autoload-installers.el --- Composer installers support for ede-php-autoload  -*- lexical-binding: t; -*-
+;;; ede-php-autoload-composer-installers.el --- Composer installers support for ede-php-autoload  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2017  Thomas Fini Hansen
 
@@ -32,11 +32,11 @@
 (require 's)
 
 ;; Customization
-(defgroup ede-autoload-installers nil
+(defgroup ede-php-autoload-composer-installers nil
   "Support for composer/installers in ede-php-autoload."
   :group 'ede)
 
-(defcustom ede-autoload-installers-project-paths '()
+(defcustom ede-php-autoload-composer-installers-project-paths '()
   "Default installation path for composer/installers package types.
 
 This is the path that composer/installers installs packages of the
@@ -48,9 +48,9 @@ just as they're specified in the extra section of composer.json.
 
 Paths should be relative."
   :type `(alist :key-type (string :tag "Type") :value-type (string :tag "Path"))
-  :group 'ede-autoload-installers)
+  :group 'ede-php-autoload-composer-installers)
 
-(defun ede-autoload-installers-autoloads (context autoloads)
+(defun ede-php-autoload-composer-installers-autoloads (context autoloads)
   "Visitor that fixes composer installers autoloads.
 
 CONTEXT is the composer context and AUTOLOADS are the currently
@@ -64,7 +64,7 @@ found autoloads."
         (let* ((composer-lock (ede-php-autoload-composer-get-composer-lock context))
                (project-dir (ede-php-autoload-composer-get-project-dir context))
                (extra (cdr (assoc 'extra composer-data)))
-               (installer-paths (ede-autoload-installers--flip-installer-paths (cdr (assoc 'installer-paths extra))))
+               (installer-paths (ede-php-autoload-composer-installers--flip-installer-paths (cdr (assoc 'installer-paths extra))))
                (packages (vconcat (cdr (assoc 'packages composer-lock))
                                   (cdr (assoc 'packages-dev composer-lock))))
                (i 0)
@@ -75,13 +75,13 @@ found autoloads."
                   autoloads (ede-php-autoload--merge-composer-autoloads
                              current-data
                              autoloads
-                             (ede-autoload-installers--get-package-dir current-data installer-paths project-dir))
+                             (ede-php-autoload-composer-installers--get-package-dir current-data installer-paths project-dir))
                   i (1+ i))
             )
           autoloads)
       (autoloads))))
 
-(defun ede-autoload-installers--get-package-dir (package-data installer-paths project-dir)
+(defun ede-php-autoload-composer-installers--get-package-dir (package-data installer-paths project-dir)
   "Return the directory that contain third party sources.
 
 PACKAGE-DATA is the data for the corresponding third-party in the
@@ -107,7 +107,7 @@ PROJECT-DIR is the project root."
         (setq path (f-join "vendor" package))
         ;; Always install libraries into vendor per default.
         (if (not (equal  "library" type))
-            (let ((configured-path (assoc type ede-autoload-installers-project-paths)))
+            (let ((configured-path (assoc type ede-php-autoload-composer-installers-project-paths)))
               (if configured-path
                   (setq path (cdr configured-path))
                 ;; As a last ditch effort, check if the default
@@ -117,12 +117,12 @@ PROJECT-DIR is the project root."
                 ;; related to composer/installers.
                 (if (not (file-exists-p
                           (f-join project-dir
-                                  (ede-autoload-installers--file-path path name vendor type))))
-                    (lwarn 'ede-autoload-installers :error "Unknown package type '%s'" type)))))))
+                                  (ede-php-autoload-composer-installers--file-path path name vendor type))))
+                    (lwarn 'ede-php-autoload-composer-installers :error "Unknown package type '%s'" type)))))))
     (f-join project-dir
-            (ede-autoload-installers--file-path path name vendor type))))
+            (ede-php-autoload-composer-installers--file-path path name vendor type))))
 
-(defun ede-autoload-installers--file-path (path name vendor type)
+(defun ede-php-autoload-composer-installers--file-path (path name vendor type)
   "Replace the composer/installers tokens in PATH.
 
  The {$name}, {$vendor} and {$type} placeholders are replaced
@@ -132,15 +132,15 @@ PROJECT-DIR is the project root."
                         (s-replace "{$type}" type
                                    path))))
 
-(defun ede-autoload-installers--flip-installer-paths (installer-paths)
+(defun ede-php-autoload-composer-installers--flip-installer-paths (installer-paths)
   "Flips INSTALLER-PATHS into a lookup table."
   (cl-loop for (key . value) in installer-paths
            ;; The append coverts the vector to a list.
            append (cl-loop for spec in (append value nil)
                            collect (cons spec key))))
 
-(ede-php-autoload-composer-define-visitor #'ede-autoload-installers-autoloads)
-;; (add-to-list 'ede-php-autoload-composer--visitors #'ede-autoload-installers-autoloads t)
+(ede-php-autoload-composer-define-visitor #'ede-php-autoload-composer-installers-autoloads)
+;; (add-to-list 'ede-php-autoload-composer--visitors #'ede-php-autoload-composer-installers-autoloads t)
 
-(provide 'ede-autoload-installers)
-;;; ede-autoload-installers.el ends here
+(provide 'ede-php-autoload-composer-installers)
+;;; ede-php-autoload-composer-installers.el ends here
