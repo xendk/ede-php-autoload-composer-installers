@@ -75,7 +75,8 @@ found autoloads."
                   autoloads (ede-php-autoload-composer-merge-composer-autoloads
                              current-data
                              autoloads
-                             (ede-php-autoload-composer-installers--get-package-dir current-data installer-paths project-dir))
+                             (ede-php-autoload-composer-installers--get-package-dir
+                              current-data installer-paths project-dir))
                   i (1+ i))
             )
           autoloads)
