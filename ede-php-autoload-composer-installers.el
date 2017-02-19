@@ -22,9 +22,16 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ;;; Commentary:
-
-;; 
-
+;;
+;; Add support for composer/installers to ede-php-autoload.
+;;
+;; Allows ede-php-autoload to find classes even if composer/installers
+;; has relocated the package.
+;;
+;; Customize `ede-php-autoload-composer-installers-project-paths' to
+;; specify the default installation path for package types, when not
+;; specified in the extra section of composer.json.
+;;
 ;;; Code:
 
 (require 'ede-php-autoload)
@@ -77,12 +84,13 @@ found autoloads."
                              autoloads
                              (ede-php-autoload-composer-installers--get-package-dir
                               current-data installer-paths project-dir))
-                  i (1+ i))
-            )
+                  i (1+ i)))
           autoloads)
       autoloads)))
 
-(defun ede-php-autoload-composer-installers--get-package-dir (package-data installer-paths project-dir)
+(defun ede-php-autoload-composer-installers--get-package-dir (package-data
+                                                              installer-paths
+                                                              project-dir)
   "Return the directory that contain third party sources.
 
 PACKAGE-DATA is the data for the corresponding third-party in the
@@ -118,8 +126,10 @@ PROJECT-DIR is the project root."
                 ;; related to composer/installers.
                 (if (not (file-exists-p
                           (f-join project-dir
-                                  (ede-php-autoload-composer-installers--file-path path name vendor type))))
-                    (lwarn 'ede-php-autoload-composer-installers :error "Unknown package type '%s'" type)))))))
+                                  (ede-php-autoload-composer-installers--file-path
+                                   path name vendor type))))
+                    (lwarn 'ede-php-autoload-composer-installers :error
+                           "Unknown package type '%s'" type)))))))
     (f-join project-dir
             (ede-php-autoload-composer-installers--file-path path name vendor type))))
 
