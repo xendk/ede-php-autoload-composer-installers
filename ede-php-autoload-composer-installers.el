@@ -7,6 +7,7 @@
 ;; Version: 0.1.0
 ;; Package-Requires: ((ede-php-autoload "20170212.450") (f "0.19.0") (s "1.7.0"))
 ;; Keywords: programming, php
+;; Homepage: https://github.com/xendk/ede-php-autoload-composer-installers
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
