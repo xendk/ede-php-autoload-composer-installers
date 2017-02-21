@@ -152,7 +152,6 @@ PROJECT-DIR is the project root."
                            collect (cons spec key))))
 
 (ede-php-autoload-composer-define-visitor #'ede-php-autoload-composer-installers-autoloads)
-;; (add-to-list 'ede-php-autoload-composer--visitors #'ede-php-autoload-composer-installers-autoloads t)
 
 (provide 'ede-php-autoload-composer-installers)
 ;;; ede-php-autoload-composer-installers.el ends here
