@@ -1,5 +1,7 @@
 
 [![Build Status](https://travis-ci.org/xendk/ede-php-autoload-composer-installers.svg?branch=master)](https://travis-ci.org/xendk/ede-php-autoload-composer-installers)
+[![MELPA Stable](https://stable.melpa.org/packages/ede-php-autoload-composer-installers-badge.svg)](https://stable.melpa.org/#/ede-php-autoload-composer-installers)
+[![MELPA](https://melpa.org/packages/ede-php-autoload-composer-installers-badge.svg)](https://melpa.org/#/ede-php-autoload-composer-installers)
 
 # ede-php-autoload-composer-installers
 
