@@ -8,7 +8,7 @@
 ## Description
 
 This project adds support for [composer/installers][]
-to [ede-php-autolaod][], allowing it to locate classes even when
+to [ede-php-autoload][], allowing it to locate classes even when
 composer has relocated the package.
 
 Customize `ede-php-autoload-composer-installers-project-paths` to
@@ -24,7 +24,7 @@ project was encountered with a type not:
 3. Found in the default `vendor/{$vendor}/{$name}` location.
 
 [composer/installers]: https://github.com/composer/installers
-[ede-php-autolaod]: https://github.com/stevenremot/ede-php-autoload/
+[ede-php-autoload]: https://github.com/stevenremot/ede-php-autoload/
 
 ## Outstanding issues
 
